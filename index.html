@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Open Front Tournament</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        body {
+            background: #080b12;
+            color: white;
+        }
+
+        /* HEADER */
+
+        header {
+            background: #0d111a;
+            border-bottom: 1px solid #252b38;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff3131;
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        nav button {
+            background: transparent;
+            color: #aaa;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 15px;
+            border-radius: 8px;
+        }
+
+        nav button:hover {
+            background: #181e29;
+            color: white;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 430px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 50px 20px;
+
+            background:
+                linear-gradient(rgba(8,11,18,.75), rgba(8,11,18,.95)),
+                radial-gradient(circle at center, #471414, #080b12 60%);
+        }
+
+        .hero h1 {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 span {
+            color: #ff3131;
+        }
+
+        .hero p {
+            color: #aaa;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .hero button {
+            background: #ff3131;
+            border: none;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .hero button:hover {
+            background: #e01f1f;
+        }
+
+        /* SECTIONS */
+
+        section {
+            padding: 70px 7%;
+        }
+
+        .title {
+            font-size: 30px;
+            margin-bottom: 30px;
+        }
+
+        .title span {
+            color: #ff3131;
+        }
+
+        /* MATCHES */
+
+        .matches {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .match {
+            background: #10151f;
+            border: 1px solid #242b38;
+            border-radius: 15px;
+            padding: 25px;
+            transition: .2s;
+        }
+
+        .match:hover {
+            transform: translateY(-5px);
+            border-color: #ff3131;
+        }
+
+        .match-time {
+            color: #ff3131;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .vs {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .status {
+            margin-top: 20px;
+            background: #181e29;
+            padding: 8px;
+            border-radius: 7px;
+            text-align: center;
+            color: #aaa;
+        }
+
+        /* TEAM CARDS */
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .team {
+            background: #10151f;
+            border: 1px solid #242b38;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .team-logo {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: #181e29;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: auto auto 15px;
+            font-size: 25px;
+            font-weight: bold;
+            color: #ff3131;
+        }
+
+        .team h3 {
+            margin-bottom: 10px;
+        }
+
+        .members {
+            color: #999;
+            line-height: 2;
+            font-size: 14px;
+        }
+
+        /* RESULTS */
+
+        .result {
+            background: #10151f;
+            border: 1px solid #242b38;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .winner {
+            color: #31e981;
+            font-weight: bold;
+        }
+
+        /* TABLE */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #10151f;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 17px;
+            text-align: center;
+            border-bottom: 1px solid #242b38;
+        }
+
+        th {
+            background: #181e29;
+            color: #ff3131;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            border-top: 1px solid #242b38;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            section {
+                padding: 50px 5%;
+            }
+
+            .result {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        OPEN FRONT
+    </div>
+
+    <nav>
+        <button onclick="goTo('home')">خانه</button>
+        <button onclick="goTo('matches')">مسابقات</button>
+        <button onclick="goTo('teams')">تیم‌ها</button>
+        <button onclick="goTo('results')">نتایج</button>
+        <button onclick="goTo('table')">جدول</button>
+    </nav>
+
+</header>
+
+
+<!-- HERO -->
+
+<div class="hero" id="home">
+
+    <div>
+
+        <h1>
+            OPEN <span>FRONT</span>
+        </h1>
+
+        <p>
+            مسابقات رسمی تورنومنت
+        </p>
+
+        <button onclick="goTo('matches')">
+            مشاهده مسابقات
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- MATCHES -->
+
+<section id="matches">
+
+    <h2 class="title">
+        ⚔️ مسابقات <span>پیش‌رو</span>
+    </h2>
+
+    <div class="matches">
+
+        <div class="match">
+
+            <div class="match-time">
+                امروز - ساعت 22:00
+            </div>
+
+            <div class="teams">
+
+                <span>NF</span>
+
+                <span class="vs">
+                    VS
+                </span>
+
+                <span>TEAM X</span>
+
+            </div>
+
+            <div class="status">
+                در انتظار بازی
+            </div>
+
+        </div>
+
+
+        <div class="match">
+
+            <div class="match-time">
+                امروز - ساعت 23:00
+            </div>
+
+            <div class="teams">
+
+                <span>TEAM A</span>
+
+                <span class="vs">
+                    VS
+                </span>
+
+                <span>TEAM B</span>
+
+            </div>
+
+            <div class="status">
+                در انتظار بازی
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- TEAMS -->
+
+<section id="teams">
+
+    <h2 class="title">
+        👥 <span>تیم‌ها</span>
+    </h2>
+
+    <div class="team-grid">
+
+
+        <div class="team">
+
+            <div class="team-logo">
+                NF
+            </div>
+
+            <h3>
+                NF
+            </h3>
+
+            <div class="members">
+
+                Amir<br>
+                Milad<br>
+                Player 3<br>
+                Player 4
+
+            </div>
+
+        </div>
+
+
+        <div class="team">
+
+            <div class="team-logo">
+                TX
+            </div>
+
+            <h3>
+                TEAM X
+            </h3>
+
+            <div class="members">
+
+                Player 1<br>
+                Player 2<br>
+                Player 3<br>
+                Player 4
+
+            </div>
+
+        </div>
+
+
+        <div class="team">
+
+            <div class="team-logo">
+                TA
+            </div>
+
+            <h3>
+                TEAM A
+            </h3>
+
+            <div class="members">
+
+                Player 1<br>
+                Player 2<br>
+                Player 3<br>
+                Player 4
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- RESULTS -->
+
+<section id="results">
+
+    <h2 class="title">
+        🏆 <span>نتایج</span>
+    </h2>
+
+
+    <div class="result">
+
+        <span>
+            NF
+        </span>
+
+        <strong>
+            5 - 2
+        </strong>
+
+        <span>
+            TEAM X
+        </span>
+
+        <span class="winner">
+            برنده: NF
+        </span>
+
+    </div>
+
+
+    <div class="result">
+
+        <span>
+            TEAM B
+        </span>
+
+        <strong>
+            5 - 1
+        </strong>
+
+        <span>
+            TEAM A
+        </span>
+
+        <span class="winner">
+            برنده: TEAM B
+        </span>
+
+    </div>
+
+</section>
+
+
+<!-- TABLE -->
+
+<section id="table">
+
+    <h2 class="title">
+        📊 <span>جدول رده‌بندی</span>
+    </h2>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>رتبه</th>
+                    <th>تیم</th>
+                    <th>برد</th>
+                    <th>باخت</th>
+                    <th>امتیاز</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+                    <td>🥇 1</td>
+                    <td>NF</td>
+                    <td>3</td>
+                    <td>1</td>
+                    <td>9</td>
+                </tr>
+
+                <tr>
+                    <td>🥈 2</td>
+                    <td>TEAM B</td>
+                    <td>2</td>
+                    <td>1</td>
+                    <td>6</td>
+                </tr>
+
+                <tr>
+                    <td>🥉 3</td>
+                    <td>TEAM X</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    Open Front Tournament © 2026
+
+</footer>
+
+
+<script>
+
+    function goTo(id) {
+
+        document.getElementById(id).scrollIntoView({
+            behavior: "smooth"
+        });
+
+    }
+
+</script>
+
+</body>
+</html>
